@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-stultus
+  labels:
+    app: test-stultus
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: test-stultus
+  template:
+    metadata:
+      labels:
+        app: test-stultus
+    spec:
+      containers:
+        - name: test-stultus
+          image: ilikecontainers/test_stultus_scraper:1.0.4
+          imagePullPolicy: Always
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DATABASE_URL
